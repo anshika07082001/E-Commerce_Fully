@@ -1,3 +1,12 @@
 .window__Size {
     height: 100vh;
 }
+
+.msgFont {
+    font-size: 0.8rem;
+}
+
+.img__Height {
+    max-height: 100px;
+    max-width: 100px;
+}
