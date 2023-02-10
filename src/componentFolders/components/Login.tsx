@@ -38,7 +38,7 @@ const Login = () => {
 
     }
     if(item.role==='User'){
-
+      navigate('/user-page')
     }
   }
   

@@ -1,36 +1,70 @@
-import React, { useEffect } from 'react'
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import { UsersData } from '../../Features/commerceSlice'
-import { state } from '../../Type/Type'
+import React, { useEffect } from "react";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { deleteUsersData, getUsersData, UsersData } from "../../Features/commerceSlice";
+import { state } from "../../Type/Type";
 
 const RegisteredUsers = () => {
-    var dispatch=useDispatch()
-    var useAppSelector:TypedUseSelectorHook<state>=useSelector
-    var state=useAppSelector(state=>state.commerceSlice)
-    // var [userArr,setUserArr]=useState()
-    useEffect(()=>{
-        var arr = localStorage.getItem('signData')
-        var newArr:any=[]
-        JSON.parse(arr||'').map((item:any)=>{
-            if(item.role=='User'){
-                newArr.push(item)
-            }
-        })
-        dispatch(UsersData(newArr))
-    },[])
-    console.log(state.users)
-  return (
-    <div className='col-10 pt-2 bg-danger m-auto d-flex align-items-center justify-content-center flex-column'>
-        <table className="col-10 m-auto bg-warning text-center border border-dark">
-            <tr className='border border-dark'><th>S.No</th><th>Name</th><th>Email</th><th>Role</th><th>Action</th></tr>
-            {state.users.length>0?
-            state.users.map((item,i)=>{
-                return <tr className='border border-dark p-3'><td>{i}</td><td>{item.name}</td><td>{item.email}</td><td>{item.role}</td><td><button className='btn btn-danger '>X</button></td></tr>
-            })
-            :<label>No Registered Users</label>}
-        </table>
-    </div>
-  )
-}
+  var dispatch = useDispatch();
+  var useAppSelector: TypedUseSelectorHook<state> = useSelector;
+  var state = useAppSelector((state) => state.commerceSlice);
 
-export default RegisteredUsers
+  useEffect(() => {
+    var newArr:any=[]
+    var arr = localStorage.getItem("signData");
+    JSON.parse(arr || "").map((item: any) => {
+      if (item.role == "User") {
+        newArr.push(item);
+      }
+    });
+    dispatch(UsersData(newArr));
+  }, []);
+
+  useEffect(()=>{
+    let users=localStorage.getItem('signData')
+    dispatch(getUsersData(JSON.parse(users||'')))
+  },[])
+
+  const deleteUsers=(i:number)=>{
+    var sign= localStorage.getItem('signData')
+    var signArr = JSON.parse(sign||"")
+    console.log(signArr)
+    signArr.map((item:any,index:number)=>{
+        if(state.users[i].email==item.email && state.users[i].name==item.name && state.users[i].role==item.role){
+            dispatch(deleteUsersData({index:i,ind:index}))
+        }
+    })
+
+  }
+  return (
+    <div className="col-10 p-3 m-auto d-flex align-items-center justify-content-center flex-column">
+      <table className="col-12 m-auto text-center shadow" id="users__table">
+        <tr className=" border-bottom border-dark">
+          <th className="p-2 bg-secondary text-light">S.No</th>
+          <th className="p-2 bg-secondary text-light">Name</th>
+          <th className="p-2 bg-secondary text-light">Email</th>
+          <th className="p-2 bg-secondary text-light">Role</th>
+          <th className="p-2 bg-secondary text-light">Action</th>
+        </tr>
+        {state.users.length > 0 ? (
+          state.users.map((item, i) => {
+            return (
+              <tr className="border-bottom border-dark p-3">
+                <td>{i}</td>
+                <td>{item.name}</td>
+                <td>{item.email}</td>
+                <td>{item.role}</td>
+                <td>
+                  <button className="btn btn-danger col-3 " onClick={()=>deleteUsers(i)}>X</button>
+                </td>
+              </tr>
+            );
+          })
+        ) : (
+          <label>No Registered Users</label>
+        )}
+      </table>
+    </div>
+  );
+};
+
+export default RegisteredUsers;

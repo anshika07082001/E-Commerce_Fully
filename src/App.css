@@ -10,3 +10,35 @@
     max-height: 100px;
     max-width: 100px;
 }
+
+.imgDiv {
+    min-height: 500px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows: repeat(10,1fr);
+    gap: 1em;
+}
+
+.grid__img {
+    height: 250px;
+    width: 100%;
+}
+
+#grid__products {
+    transition: 1s;
+}
+
+#grid__products:hover {
+    transform: scale(1.1);
+}
+
+.footer__bg {
+    background: #172337;
+}
+
+#users__table tr:nth-child(odd){background-color: #c5c5c5;}
+
+#users__table tr:hover {background-color: rgba(175, 175, 175, 0.699);}

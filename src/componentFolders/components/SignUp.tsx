@@ -12,9 +12,10 @@ const SignUp = () => {
   var state=useAppSelector(state=>state.commerceSlice)
 
   useEffect(()=>{
-    let users=localStorage.getItem('signData')||''
-    dispatch(getUsersData(JSON.parse(users)))
+    let users=localStorage.getItem('signData')
+    dispatch(getUsersData(JSON.parse(users||'')))
   },[])
+  console.log(state.signData)
 
   const changeHandler=(e:React.ChangeEvent<HTMLInputElement>)=>{
     var placeHolder = e.target.getAttribute('placeholder')

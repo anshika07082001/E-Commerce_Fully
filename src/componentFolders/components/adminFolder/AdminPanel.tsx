@@ -1,4 +1,5 @@
 import React from 'react'
+import Footer from '../Footer'
 import Navbar from '../Navbar'
 import RegisteredUsers from './RegisteredUsers'
 
@@ -7,6 +8,7 @@ const AdminPanel = () => {
     <>
     <Navbar/>
     <RegisteredUsers/>
+    <Footer/>
     </>
   )
 }
