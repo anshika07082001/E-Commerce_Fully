@@ -5,6 +5,7 @@ export type signObj = {
   email: string;
   pwd: string;
   role: string;
+  cart:cartProps[]
 };
 
 export type productProps = {
@@ -39,4 +40,13 @@ export type signData = {
   loading: boolean;
   error: SerializedError;
   products: productProps[];
+  searchArr:productProps[];
+  cartArr:cartProps[];
 };
+
+export type cartProps={
+  title:string
+  quantity:number
+  id:number
+  brand:string
+}

@@ -1,24 +1,25 @@
-import React, { useEffect } from 'react'
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import { productData } from '../../Features/commerceSlice'
-import { state } from '../../Type/Type'
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import { searchProducts } from '../../Features/commerceSlice'
 import Navbar from '../Navbar'
 import Banner from './Banner'
 import ProductsPage from './ProductsPage'
 
 const UserPage = () => {
-  var useAppSelector:TypedUseSelectorHook<state>=useSelector
-  var state=useAppSelector(state=>state.commerceSlice)
   var dispatch=useDispatch()
-  useEffect(()=>{
-    dispatch<any>(productData())
-  },[])
+  const searchHandler=(e:React.ChangeEvent<HTMLInputElement>)=>{
+    // console.log(e.target.value)
+    dispatch(searchProducts(e.target.value))
+  }
 
-  console.log(state.products)
   return (
     <div className='col-12'>
     <Navbar/>
-    <Banner/>  
+    <Banner/>
+    <form className="d-flex col-4 m-auto mt-1" role="search">
+      <input className="form-control me-2" type="search" placeholder="Search Products..." onChange={searchHandler}/>
+      <button className="btn btn-success" type="submit"><i className="bi bi-search"></i></button>
+    </form>
     <ProductsPage/>
     <img src='https://assets.ajio.com/cms/AJIO/WEB/D-UHP-Gamezone-Tile.gif' className='col-12' alt=''/>  
     <img src='https://assets.ajio.com/cms/AJIO/WEB/D-UHP-Accessories-SectionHeader.jpg' className='col-12' alt=''/>

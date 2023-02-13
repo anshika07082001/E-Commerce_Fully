@@ -16,9 +16,9 @@ const settings = {
   <div className='col-12'>
     <div className='col-10 m-auto'>
       <Slider {...settings}>
-        {images.map((item)=>{
+        {images.map((item,i)=>{
           return (
-            <img src={item} alt='' className='m-1 p-1'/>
+            <img key={i} src={item} alt='' className='m-1 p-1'/>
           )
         })}
       </Slider>
@@ -26,9 +26,9 @@ const settings = {
     <img className='col-12 p-2' src='https://assets.ajio.com/cms/AJIO/WEB/D-UHP-Urgency-72Hrs-LiveNow.jpg' alt=''/>
     <div className='col-10 m-auto'>
       <Slider {...settings}>
-        {image.map((item)=>{
+        {image.map((item,i)=>{
           return (
-            <img src={item} alt='' className='m-1 p-1'/>
+            <img src={item} key={i} alt='' className='m-1 p-1'/>
           )
         })}
       </Slider>

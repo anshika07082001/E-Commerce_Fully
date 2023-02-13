@@ -52,7 +52,7 @@ const SignUp = () => {
 
   const signHandler=()=>{
     if(inpRefs.current.name.value!=='' && inpRefs.current.email.value!=='' && inpRefs.current.pwd.value!=='' && msg.emailMsg==='' && msg.errormsg==='' && msg.nameMsg==='' && msg.pwdMsg===''){
-      var obj = {name:inpRefs.current.name.value,email:inpRefs.current.email.value,pwd:inpRefs.current.pwd.value,role:'User'}
+      var obj = {name:inpRefs.current.name.value,email:inpRefs.current.email.value,pwd:inpRefs.current.pwd.value,role:'User',cart:[]}
       dispatch(signUp(obj))
       inpRefs.current.name.value=''
       inpRefs.current.email.value=''

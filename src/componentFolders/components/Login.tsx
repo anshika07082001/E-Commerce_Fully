@@ -35,7 +35,7 @@ const Login = () => {
       navigate('/admin-panel')
     }
     if(item.role==='Manager'){
-
+      navigate('/manager-page')
     }
     if(item.role==='User'){
       navigate('/user-page')
