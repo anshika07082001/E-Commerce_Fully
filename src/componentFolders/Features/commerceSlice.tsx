@@ -30,7 +30,7 @@ const commerceSlice = createSlice({
     name:'commerce',
     initialState,
     reducers:{
-        getUsersData(state,action){
+        getSignData(state,action){
             state.signData=action.payload
         },
         signUp(state,action){
@@ -42,12 +42,16 @@ const commerceSlice = createSlice({
             localStorage.setItem('loginData',JSON.stringify(state.loginObj))
         },
         UsersData(state,action){
-            state.users=action.payload
+            state.users.push(action.payload)
             localStorage.setItem('usersData',JSON.stringify(state.users))
+        },
+        getUsersData(state,action){
+            state.users=action.payload
         },
         deleteUsersData(state,action){
             state.signData.splice(action.payload.ind,1)
             state.users.splice(action.payload.index,1)
+            localStorage.setItem('usersData',JSON.stringify(state.users))
             localStorage.setItem('signData',JSON.stringify(state.signData))
         },
         getProductsData(state,action){
@@ -124,5 +128,5 @@ const commerceSlice = createSlice({
     }
 })
 
-export const {addCart,signUp,getUsersData,login,UsersData,deleteUsersData,updateProductsData,getProductsData,searchProducts}=commerceSlice.actions
+export const {getSignData,addCart,signUp,getUsersData,login,UsersData,deleteUsersData,updateProductsData,getProductsData,searchProducts}=commerceSlice.actions
 export default commerceSlice.reducer

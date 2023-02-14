@@ -8,7 +8,7 @@ const AdminPanel = () => {
     <>
     <Navbar/>
     <RegisteredUsers/>
-    <Footer/>
+    {/* <Footer/> */}
     </>
   )
 }

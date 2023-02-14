@@ -8,36 +8,39 @@ const RegisteredUsers = () => {
   var useAppSelector: TypedUseSelectorHook<state> = useSelector;
   var state = useAppSelector((state) => state.commerceSlice);
 
-  useEffect(() => {
-    var newArr:any=[]
-    var arr = localStorage.getItem("signData");
-    JSON.parse(arr || "").map((item: any) => {
-      if (item.role == "User") {
-        newArr.push(item);
-      }
-    });
-    dispatch(UsersData(newArr));
-  }, []);
+  // useEffect(() => {
+  //   var newArr:any=[]
+  //   var arr = localStorage.getItem("signData");
+  //   JSON.parse(arr || "").map((item: any) => {
+  //     if (item.role == "User") {
+  //       newArr.push(item);
+  //     }
+  //   });
+  //   dispatch(UsersData(newArr));
+  // }, []);
 
   useEffect(()=>{
-    let users=localStorage.getItem('signData')
+    let users=localStorage.getItem('usersData')
     dispatch(getUsersData(JSON.parse(users||'')))
   },[])
+
+  // console.log(state.users,state.signData)
 
   const deleteUsers=(i:number)=>{
     var sign= localStorage.getItem('signData')
     var signArr = JSON.parse(sign||"")
-    console.log(signArr)
+    console.log(signArr,state.users)
     signArr.map((item:any,index:number)=>{
-        if(state.users[i].email==item.email && state.users[i].name==item.name && state.users[i].role==item.role){
-            dispatch(deleteUsersData({index:i,ind:index}))
-        }
+      if(state.users[i].email==item.email && state.users[i].name==item.name && state.users[i].role==item.role){
+        dispatch(deleteUsersData({index:i,ind:index}))
+      }
     })
 
   }
   return (
     <div className="col-10 p-3 m-auto d-flex align-items-center justify-content-center flex-column">
       <table className="col-12 m-auto text-center shadow" id="users__table">
+        <tbody>
         <tr className=" border-bottom border-dark">
           <th className="p-2 bg-secondary text-light">S.No</th>
           <th className="p-2 bg-secondary text-light">Name</th>
@@ -60,8 +63,11 @@ const RegisteredUsers = () => {
             );
           })
         ) : (
+          <>
           <label>No Registered Users</label>
+          </>
         )}
+        </tbody>
       </table>
     </div>
   );

@@ -1,21 +1,20 @@
 import React, { useState,useRef, useEffect } from "react";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getUsersData, signUp } from "../Features/commerceSlice";
+import { getSignData, getUsersData, signUp, UsersData } from "../Features/commerceSlice";
 import { msgArr, state } from "../Type/Type";
 
 const SignUp = () => {
   var inpRefs=useRef<any>([])
   var [msg,setMsg]=useState<msgArr>({nameMsg:'',emailMsg:'',pwdMsg:'',errormsg:''})
   var dispatch=useDispatch()
-  var useAppSelector:TypedUseSelectorHook<state>=useSelector
-  var state=useAppSelector(state=>state.commerceSlice)
+  // var useAppSelector:TypedUseSelectorHook<state>=useSelector
+  // var state=useAppSelector(state=>state.commerceSlice)
 
   useEffect(()=>{
-    let users=localStorage.getItem('signData')
-    dispatch(getUsersData(JSON.parse(users||'')))
+    let signData=localStorage.getItem('signData')
+    dispatch(getSignData(JSON.parse(signData||'')))
   },[])
-  console.log(state.signData)
 
   const changeHandler=(e:React.ChangeEvent<HTMLInputElement>)=>{
     var placeHolder = e.target.getAttribute('placeholder')
@@ -51,18 +50,45 @@ const SignUp = () => {
   }
 
   const signHandler=()=>{
+    let temp=false
     if(inpRefs.current.name.value!=='' && inpRefs.current.email.value!=='' && inpRefs.current.pwd.value!=='' && msg.emailMsg==='' && msg.errormsg==='' && msg.nameMsg==='' && msg.pwdMsg===''){
-      var obj = {name:inpRefs.current.name.value,email:inpRefs.current.email.value,pwd:inpRefs.current.pwd.value,role:'User',cart:[]}
-      dispatch(signUp(obj))
-      inpRefs.current.name.value=''
-      inpRefs.current.email.value=''
-      inpRefs.current.pwd.value=''
-      msg.errormsg='SignIn Successfully!!'
+      var signData = localStorage.getItem('signData')||''
+      JSON.parse(signData).map((item:any)=>{
+        console.log(item.email,inpRefs.current.email.value)
+        if(item.role=='User' && item.email==inpRefs.current.email.value){
+          temp=true;  
+        }
+        // else{
+        //   msg.errormsg='Email Already Exists!!'
+        // }
+      })
+      console.log(temp)
+      if(temp){
+        msg.errormsg='Email Already Exists!!'
+      }
+      else{
+        var obj = {name:inpRefs.current.name.value,email:inpRefs.current.email.value,pwd:inpRefs.current.pwd.value,role:'User',cart:[]}
+          dispatch(signUp(obj))
+          inpRefs.current.name.value=''
+          inpRefs.current.email.value=''
+          inpRefs.current.pwd.value=''
+          msg.errormsg='SignIn Successfully!!'
+          userFunc()
+      }
     }
     else{
       msg.errormsg='All Fields Must be filled correctly'
     }
     setMsg({...msg})
+  }
+
+  const userFunc=()=>{
+    let User = localStorage.getItem('signData')||''
+    JSON.parse(User).map((item:any)=>{
+      if(item.role=='User'){
+        dispatch(UsersData(item))
+      }
+    })
   }
 
   return (

@@ -13,11 +13,8 @@ const Login = () => {
   // var [errMsg,setErrMsg]=useState('')
   var navigate=useNavigate()
 
-  // console.log(state.commerceSlice.signData)
   const logHandler=()=>{
     var signArr = JSON.parse(localStorage.getItem('signData')||'')
-    // console.log(signArr)
-    // console.log(inpRefs.current)
     signArr.map((item:any)=>{
       if(item.email==inpRefs.current.email.value && item.pwd==inpRefs.current.pwd.value){
         dispatch(login(item))
@@ -25,7 +22,6 @@ const Login = () => {
         setTimeout(()=>checkRole(item),1000)
         inpRefs.current.email.value=''
         inpRefs.current.pwd.value=''
-        // localStorage.setItem('loginData',JSON.stringify(item))
       }
     })
   }

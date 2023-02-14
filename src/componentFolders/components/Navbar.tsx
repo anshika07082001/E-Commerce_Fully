@@ -6,11 +6,9 @@ const Navbar = () => {
   useEffect(()=>{
     var login = localStorage.getItem('loginData')||''
     var obj = JSON.parse(login)
-    // console.log(obj.name.substring(0,obj.name.indexOf(' ')))
     setLoginName(obj.name.substring(0,obj.name.indexOf(' ')))
   },[])
 
-  console.log(loginName)
   return (
     <nav className="navbar navbar-expand-lg shadow bg-body-tertiary col-12">
   <div className="container-fluid">
