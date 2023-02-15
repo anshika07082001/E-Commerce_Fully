@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
   var [loginName,setLoginName]=useState('')
+  var navigate=useNavigate()
   useEffect(()=>{
     var login = localStorage.getItem('loginData')||''
     var obj = JSON.parse(login)
@@ -15,7 +16,7 @@ const Navbar = () => {
     <Link to='/user-page' className='text-decoration-none text-dark fw-bolder'>
       <img src='logo.png' style={{height:'60px',width:'70px'}} alt=''/>
     </Link>
-    <i className="bi bi-cart fs-2"></i>
+    <i className="bi bi-cart fs-2" onClick={()=>navigate('/cart-page')}></i>
     {loginName!==''?
     <label>Hello, {loginName}</label>:<label>Hello, User</label>}
     {/* <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

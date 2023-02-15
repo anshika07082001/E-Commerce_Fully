@@ -41,7 +41,7 @@ export type signData = {
   error: SerializedError;
   products: productProps[];
   searchArr:productProps[];
-  cartArr:cartProps[];
+  // cartArr:cartProps[];
 };
 
 export type cartProps={

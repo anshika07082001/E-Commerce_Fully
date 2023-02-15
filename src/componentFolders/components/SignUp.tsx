@@ -54,26 +54,21 @@ const SignUp = () => {
     if(inpRefs.current.name.value!=='' && inpRefs.current.email.value!=='' && inpRefs.current.pwd.value!=='' && msg.emailMsg==='' && msg.errormsg==='' && msg.nameMsg==='' && msg.pwdMsg===''){
       var signData = localStorage.getItem('signData')||''
       JSON.parse(signData).map((item:any)=>{
-        console.log(item.email,inpRefs.current.email.value)
         if(item.role=='User' && item.email==inpRefs.current.email.value){
           temp=true;  
         }
-        // else{
-        //   msg.errormsg='Email Already Exists!!'
-        // }
       })
-      console.log(temp)
       if(temp){
         msg.errormsg='Email Already Exists!!'
       }
       else{
         var obj = {name:inpRefs.current.name.value,email:inpRefs.current.email.value,pwd:inpRefs.current.pwd.value,role:'User',cart:[]}
-          dispatch(signUp(obj))
-          inpRefs.current.name.value=''
-          inpRefs.current.email.value=''
-          inpRefs.current.pwd.value=''
-          msg.errormsg='SignIn Successfully!!'
-          userFunc()
+        dispatch(signUp(obj))
+        inpRefs.current.name.value=''
+        inpRefs.current.email.value=''
+        inpRefs.current.pwd.value=''
+        msg.errormsg='SignIn Successfully!!'
+        userFunc()
       }
     }
     else{
@@ -83,12 +78,14 @@ const SignUp = () => {
   }
 
   const userFunc=()=>{
+    var arr:any=[]
     let User = localStorage.getItem('signData')||''
     JSON.parse(User).map((item:any)=>{
       if(item.role=='User'){
-        dispatch(UsersData(item))
+        arr.push(item)
       }
     })
+    dispatch(UsersData(arr))
   }
 
   return (

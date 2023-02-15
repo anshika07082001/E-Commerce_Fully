@@ -8,7 +8,6 @@ import ProductsPage from './ProductsPage'
 const UserPage = () => {
   var dispatch=useDispatch()
   const searchHandler=(e:React.ChangeEvent<HTMLInputElement>)=>{
-    // console.log(e.target.value)
     dispatch(searchProducts(e.target.value))
   }
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { deleteUsersData, getUsersData, UsersData } from "../../Features/commerceSlice";
+import { deleteUsersData, getSignData, getUsersData } from "../../Features/commerceSlice";
 import { state } from "../../Type/Type";
 
 const RegisteredUsers = () => {
@@ -8,28 +8,16 @@ const RegisteredUsers = () => {
   var useAppSelector: TypedUseSelectorHook<state> = useSelector;
   var state = useAppSelector((state) => state.commerceSlice);
 
-  // useEffect(() => {
-  //   var newArr:any=[]
-  //   var arr = localStorage.getItem("signData");
-  //   JSON.parse(arr || "").map((item: any) => {
-  //     if (item.role == "User") {
-  //       newArr.push(item);
-  //     }
-  //   });
-  //   dispatch(UsersData(newArr));
-  // }, []);
-
   useEffect(()=>{
     let users=localStorage.getItem('usersData')
     dispatch(getUsersData(JSON.parse(users||'')))
+    let signData=localStorage.getItem('signData')
+    dispatch(getSignData(JSON.parse(signData||'')))
   },[])
-
-  // console.log(state.users,state.signData)
 
   const deleteUsers=(i:number)=>{
     var sign= localStorage.getItem('signData')
     var signArr = JSON.parse(sign||"")
-    console.log(signArr,state.users)
     signArr.map((item:any,index:number)=>{
       if(state.users[i].email==item.email && state.users[i].name==item.name && state.users[i].role==item.role){
         dispatch(deleteUsersData({index:i,ind:index}))

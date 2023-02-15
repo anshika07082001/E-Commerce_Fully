@@ -10,7 +10,7 @@ var initialState:signData={
     error:{},
     products:[],
     searchArr:[],
-    cartArr:[]
+    // cartArr:[]
 }
 
 export const productData = createAsyncThunk('commerce/productData',
@@ -38,11 +38,12 @@ const commerceSlice = createSlice({
             localStorage.setItem('signData',JSON.stringify(state.signData))
         },
         login(state,action){
+            console.log(action.payload)
             state.loginObj=action.payload
             localStorage.setItem('loginData',JSON.stringify(state.loginObj))
         },
         UsersData(state,action){
-            state.users.push(action.payload)
+            state.users=action.payload
             localStorage.setItem('usersData',JSON.stringify(state.users))
         },
         getUsersData(state,action){
@@ -71,45 +72,25 @@ const commerceSlice = createSlice({
             // })
         },
         addCart(state,action){
-            var val = state.products[action.payload].title
-            console.log(state.loginObj.cart.length)
-            if(state.loginObj.cart.length>0){
-                for(var i=0;i<state.loginObj.cart.length;i++){
-                    if(state.loginObj.cart[i].title===val){
-                        state.loginObj.cart[i].quantity++;
+            var val = state.products[action.payload.i].title
+            if(state.users[action.payload.index].cart.length>0){
+                for(var i=0;i<state.users[action.payload.index].cart.length;i++){
+                    if(state.users[action.payload.index].cart[i].title===val){
+                        state.users[action.payload.index].cart[i].quantity++;
                         break;
                     }
-                    else if(i===state.cartArr.length-1){
-                        state.loginObj.cart.push({title:state.products[action.payload].title,brand:state.products[action.payload].brand,id:state.products[action.payload].id,quantity:1})
+                    else if(i===state.users[action.payload.index].cart.length-1){
+                        state.users[action.payload.index].cart.push({title:state.products[action.payload.i].title,brand:state.products[action.payload.i].brand,id:state.products[action.payload.i].id,quantity:1})
                         break
                     }
                 }
             }
             else{
-                state.loginObj.cart.push({title:state.products[action.payload].title,brand:state.products[action.payload].brand,id:state.products[action.payload].id,quantity:1})
+                state.users[action.payload.index].cart.push({title:state.products[action.payload.i].title,brand:state.products[action.payload.i].brand,id:state.products[action.payload.i].id,quantity:1})
             }
-            state.products[action.payload].stock--
+            state.products[action.payload.i].stock--
             localStorage.setItem('productsData',JSON.stringify(state.products))
-            // localStorage.setItem('loginData',JSON.stringify(state.loginObj))
-            // if(state.cartArr.length>0){
-            //     for(var i=0;i<state.cartArr.length;i++){
-            //         // if(state.cartArr[i].arr.title==val){
-            //         //     state.cartArr.arr[i].stock++
-            //         //     break
-            //         // }
-            //         // else if(i===state.cartArr.length-1){
-            //         //     state.cartArr.push({arr:state.products[action.payload],login:state.loginObj})
-            //         //     break
-            //         // }
-            //     }
-            // }
-            // else{
-            //     alert()
-            //     state.cartArr.map((item)=>{
-            //         item.arr.push(state.products[action.payload])
-            //     })
-            //     // state.cartArr.push({arr:state.cartArr,login:state.loginObj})
-            // }
+            localStorage.setItem('usersData',JSON.stringify(state.users))
         } 
     },
     extraReducers:(builder)=>{

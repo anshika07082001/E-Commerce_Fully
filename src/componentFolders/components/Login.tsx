@@ -1,7 +1,7 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { login } from "../Features/commerceSlice";
+import { getUsersData, login } from "../Features/commerceSlice";
 import { state } from "../Type/Type";
 
 const Login = () => {
@@ -10,20 +10,41 @@ const Login = () => {
   var inpRefs = useRef<any>([])
   var dispatch=useDispatch()
   var [msgFlg,setMsgFlg]=useState({flg:false,errMsg:''})
-  // var [errMsg,setErrMsg]=useState('')
   var navigate=useNavigate()
 
+  // useEffect(()=>{
+  //   let users=localStorage.getItem('usersData')
+  //   dispatch(getUsersData(JSON.parse(users||'')))
+  // },[])
+
   const logHandler=()=>{
-    var signArr = JSON.parse(localStorage.getItem('signData')||'')
-    signArr.map((item:any)=>{
-      if(item.email==inpRefs.current.email.value && item.pwd==inpRefs.current.pwd.value){
-        dispatch(login(item))
-        setMsgFlg({flg:true,errMsg:'Login Successfully!!'})
-        setTimeout(()=>checkRole(item),1000)
-        inpRefs.current.email.value=''
-        inpRefs.current.pwd.value=''
+    let temp=false
+    if(inpRefs.current.email.value!=='' && inpRefs.current.pwd.value!==''){
+      var signArr = JSON.parse(localStorage.getItem('signData')||'')
+      signArr.map((item:any)=>{
+        if(item.email==inpRefs.current.email.value && item.pwd==inpRefs.current.pwd.value){
+          temp=true
+          dispatch(login(item))
+          setMsgFlg({flg:true,errMsg:'Login Successfully!!'})
+          setTimeout(()=>checkRole(item),1000)
+          inpRefs.current.email.value=''
+          inpRefs.current.pwd.value=''
+          // state.users.map((ele)=>{
+          //   if(ele.email==item.email){
+          
+          //   }
+          // })          
+        }
+      })
+      if(temp==false){
+        setMsgFlg({flg:msgFlg.flg,errMsg:'details not matched please check your password or email!!'})
+        setTimeout(()=>setMsgFlg({flg:msgFlg.flg,errMsg:''}),2000)
       }
-    })
+    }
+    else{
+      setMsgFlg({flg:msgFlg.flg,errMsg:'Fill all fields'})
+      setTimeout(()=>setMsgFlg({flg:msgFlg.flg,errMsg:''}),2000)
+    }
   }
 
   const checkRole=(item:any)=>{

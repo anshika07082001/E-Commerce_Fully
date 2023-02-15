@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { addCart, getProductsData, productData } from '../../Features/commerceSlice'
+import { addCart, getProductsData, getUsersData, productData } from '../../Features/commerceSlice'
 import { state } from '../../Type/Type'
 
 const ProductsPage = () => {
@@ -13,15 +13,22 @@ const ProductsPage = () => {
   useEffect(()=>{
     let products = localStorage.getItem('productsData')||''
     dispatch(getProductsData(JSON.parse(products)))
+    let users=localStorage.getItem('usersData')
+    dispatch(getUsersData(JSON.parse(users||'')))
   },[])
   
 
   const addProdHandler=(i:number)=>{
+    // console.log(state.users)
     let login = localStorage.getItem('loginData')||''
     var obj = JSON.parse(login)
     if(obj.name!==''){
       if(obj.role=='User'){
-        dispatch(addCart(i))
+        state.users.map((item,index)=>{
+          if(item.email==obj.email){
+            dispatch(addCart({i:i,index:index}))
+          }
+        })
       }
       else{
         alert('Only Users are allowed to add Products to their cart!!')
@@ -42,7 +49,7 @@ const ProductsPage = () => {
     // }
   }
 
-  console.log(state.cartArr)
+  console.log(state.users)
 
 
   return (
