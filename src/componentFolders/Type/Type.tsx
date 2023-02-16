@@ -5,21 +5,21 @@ export type signObj = {
   email: string;
   pwd: string;
   role: string;
-  cart:cartProps[]
+  cart: cartProps[];
 };
 
 export type productProps = {
   id: number;
   title: string;
-  description:string;
-  price:number;
-  discountPercentage:number;
-  rating:number;
-  stock:number;
-  brand:string;
-  category:string;
-  thumbnail:string;
-  images:string[]
+  description: string;
+  price: number;
+  discountPercentage: number;
+  rating: number;
+  stock: number;
+  brand: string;
+  category: string;
+  thumbnail: string;
+  images: string[];
 };
 
 export type state = {
@@ -39,14 +39,15 @@ export type signData = {
   users: signObj[];
   loading: boolean;
   error: SerializedError;
-  products: productProps[];
-  searchArr:productProps[];
+  products: any;
+  searchArr: any;
   // cartArr:cartProps[];
 };
 
-export type cartProps={
-  title:string
-  quantity:number
-  id:number
-  brand:string
-}
+export type cartProps = {
+  title: string;
+  quantity: number;
+  id: number;
+  brand: string;
+  price: number;
+};

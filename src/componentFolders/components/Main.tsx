@@ -15,7 +15,7 @@ const Main = () => {
         <Route path="/admin-panel" element={<AdminPanel />} />
         <Route path="/user-page" element={<UserPage />} />
         <Route path="/manager-page" element={<ManagerPage />} />
-        <Route path='/cart-page' element={<Cart/>}/>
+        <Route path="/cart-page" element={<Cart />} />
       </Routes>
     </>
   );
