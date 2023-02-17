@@ -18,8 +18,6 @@
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    /* grid-template-columns: repeat(3,1fr); */
-    /* grid-template-rows: repeat(10,1fr); */
     gap: 2em;
 }
 
@@ -46,4 +44,20 @@
 
 #users__table tr:hover {
     background-color: rgba(175, 175, 175, 0.699);
+}
+
+.slick-next:before,
+.slick-prev:before {
+    background: grey !important;
+    border-radius: 10px !important;
+}
+
+.padTop {
+    padding-top: 10% !important;
+}
+
+@media (max-width:600px){
+    .padTop {
+        padding-top: 30% !important;
+    }
 }

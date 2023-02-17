@@ -16,13 +16,12 @@ const ProductsPage = () => {
   var navigate = useNavigate();
 
   const addProdHandler = (i: number) => {
-    // console.log(state.searchArr[i])
-    let login = localStorage.getItem("loginData") || "";
-    var obj = JSON.parse(login);
-    if (obj.name !== "") {
-      if (obj.role == "User") {
+    // let login = localStorage.getItem("loginData") || "";
+    // var obj = JSON.parse(login);
+    if (state.loginObj.name !== "") {
+      if (state.loginObj.role == "User") {
         state.signData.map((item, index) => {
-          if (item.email == obj.email) {
+          if (item.email == state.loginObj.email) {
             dispatch(addCart({ i: i, index: index }));
           }
         });

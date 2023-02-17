@@ -8,20 +8,6 @@ export type signObj = {
   cart: cartProps[];
 };
 
-export type productProps = {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  discountPercentage: number;
-  rating: number;
-  stock: number;
-  brand: string;
-  category: string;
-  thumbnail: string;
-  images: string[];
-};
-
 export type state = {
   commerceSlice: signData;
 };
@@ -41,7 +27,6 @@ export type signData = {
   error: SerializedError;
   products: any;
   searchArr: any;
-  // cartArr:cartProps[];
 };
 
 export type cartProps = {

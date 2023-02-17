@@ -1,17 +1,13 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import {
-  getSignData,
-  getUsersData,
-  productData,
-  signUp,
-  UsersData,
-} from "../Features/commerceSlice";
+import { signUp, UsersData } from "../Features/commerceSlice";
 import { msgArr, state } from "../Type/Type";
 
 const SignUp = () => {
-  var inpRefs = useRef<any>([]);
+  var role = ["Admin", "Manager", "User"];
+  var [rol, setRol] = useState("");
+  var inpRefs = useRef<any>({ name: null, email: null, role: null, pwd: null });
   var [msg, setMsg] = useState<msgArr>({
     nameMsg: "",
     emailMsg: "",
@@ -19,14 +15,9 @@ const SignUp = () => {
     errormsg: "",
   });
   var dispatch = useDispatch();
-  var useAppSelector:TypedUseSelectorHook<state>=useSelector
-  var state=useAppSelector(state=>state.commerceSlice)
-
-  useEffect(() => {
-    let signData = localStorage.getItem("signData");
-    dispatch(getSignData(JSON.parse(signData || "")));
-  }, []);
-
+  var useAppSelector: TypedUseSelectorHook<state> = useSelector;
+  var state = useAppSelector((state) => state.commerceSlice);
+  // function checks validation
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     var placeHolder = e.target.getAttribute("placeholder");
     msg.errormsg = "";
@@ -62,7 +53,7 @@ const SignUp = () => {
     }
     setMsg({ ...msg });
   };
-
+  // function runs on signup button click and dispatches the signdata reducer
   const signHandler = () => {
     let temp = false;
     if (
@@ -74,28 +65,37 @@ const SignUp = () => {
       msg.nameMsg === "" &&
       msg.pwdMsg === ""
     ) {
-      var signData = localStorage.getItem("signData") || "";
-      JSON.parse(signData).map((item: any) => {
-        if (item.role == "User" && item.email == inpRefs.current.email.value) {
-          temp = true;
+      if (rol !== "") {
+        if (state.signData.length > 0) {
+          var signData = localStorage.getItem("signData") || "";
+          JSON.parse(signData).map((item: any) => {
+            if (
+              item.role == "User" &&
+              item.email == inpRefs.current.email.value
+            ) {
+              temp = true;
+            }
+          });
         }
-      });
-      if (temp) {
-        msg.errormsg = "Email Already Exists!!";
+        if (temp) {
+          msg.errormsg = "Email Already Exists!!";
+        } else {
+          var obj = {
+            name: inpRefs.current.name.value,
+            email: inpRefs.current.email.value,
+            pwd: inpRefs.current.pwd.value,
+            role: rol,
+            cart: [],
+          };
+          dispatch(signUp(obj));
+          inpRefs.current.name.value = "";
+          inpRefs.current.email.value = "";
+          inpRefs.current.pwd.value = "";
+          msg.errormsg = "SignIn Successfully!!";
+          userFunc();
+        }
       } else {
-        var obj = {
-          name: inpRefs.current.name.value,
-          email: inpRefs.current.email.value,
-          pwd: inpRefs.current.pwd.value,
-          role: "User",
-          cart: [],
-        };
-        dispatch(signUp(obj));
-        inpRefs.current.name.value = "";
-        inpRefs.current.email.value = "";
-        inpRefs.current.pwd.value = "";
-        msg.errormsg = "SignIn Successfully!!";
-        userFunc();
+        alert("please select the role!!");
       }
     } else {
       msg.errormsg = "All Fields Must be filled correctly";
@@ -103,6 +103,7 @@ const SignUp = () => {
     setMsg({ ...msg });
   };
 
+  // function checks the role of users and dispatches the usersData function
   const userFunc = () => {
     var arr: any = [];
     let User = localStorage.getItem("signData") || "";
@@ -118,12 +119,12 @@ const SignUp = () => {
     <div className="col-12 d-flex flex-column align-items-center window__Size">
       <img src="logo.png" className="col-3 col-sm-2 col-md-1" alt="" />
       <div className="col-10 col-lg-5 col-md-6 col-sm-7 p-3 mb-4 rounded shadow d-flex align-items-center flex-column">
-        <h2>Sign In</h2>
+        <h2>Sign Up</h2>
         <span
           className={
             msg.errormsg === "SignIn Successfully!!"
-              ? "msgFont text-success"
-              : "text-danger msgFont"
+              ? "msgFont text-success fs-6"
+              : "text-danger msgFont fs-6"
           }
         >
           {msg.errormsg}
@@ -147,6 +148,15 @@ const SignUp = () => {
             onChange={(e) => changeHandler(e)}
           />
           <span className="text-danger msgFont">{msg.emailMsg}</span>
+          <select
+            className="mt-2 p-1"
+            onChange={(e) => setRol(e.currentTarget.value)}
+          >
+            <option hidden>Select Role</option>
+            {role.map((item) => {
+              return <option key={item}>{item}</option>;
+            })}
+          </select>
           <label className="mt-1">Enter Password</label>
           <input
             className="mt-1 p-1"

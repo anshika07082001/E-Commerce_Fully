@@ -1,24 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import {
-  deleteUsersData,
-  getSignData,
-  getUsersData,
-} from "../../Features/commerceSlice";
+import { deleteUsersData } from "../../Features/commerceSlice";
 import { state } from "../../Type/Type";
 
 const RegisteredUsers = () => {
   var dispatch = useDispatch();
   var useAppSelector: TypedUseSelectorHook<state> = useSelector;
   var state = useAppSelector((state) => state.commerceSlice);
-
-  useEffect(() => {
-    let users = localStorage.getItem("usersData");
-    dispatch(getUsersData(JSON.parse(users || "")));
-    let signData = localStorage.getItem("signData");
-    dispatch(getSignData(JSON.parse(signData || "")));
-  }, []);
-
+  // function deletes the user and dispatches the deleteUsersData
   const deleteUsers = (i: number) => {
     var sign = localStorage.getItem("signData");
     var signArr = JSON.parse(sign || "");
@@ -32,19 +21,21 @@ const RegisteredUsers = () => {
       }
     });
   };
+
   return (
-    <div className="col-10 p-3 m-auto d-flex align-items-center justify-content-center flex-column">
-      <table className="col-12 m-auto text-center shadow" id="users__table">
-        <tbody>
-          <tr className=" border-bottom border-dark">
-            <th className="p-2 bg-secondary text-light">S.No</th>
-            <th className="p-2 bg-secondary text-light">Name</th>
-            <th className="p-2 bg-secondary text-light">Email</th>
-            <th className="p-2 bg-secondary text-light">Role</th>
-            <th className="p-2 bg-secondary text-light">Action</th>
-          </tr>
-          {state.users.length > 0 ? (
-            state.users.map((item, i) => {
+    <div className="col-10 padTop p-3 m-auto d-flex align-items-center justify-content-center flex-column">
+      {/* rendering of users data */}
+      {state.users.length > 0 ? (
+        <table className="col-12 m-auto text-center shadow table overflow-scroll" id="users__table">
+          <tbody>
+            <tr className=" border-bottom border-dark">
+              <th className="p-2 bg-secondary text-light">S.No</th>
+              <th className="p-2 bg-secondary text-light">Name</th>
+              <th className="p-2 bg-secondary text-light">Email</th>
+              <th className="p-2 bg-secondary text-light">Role</th>
+              <th className="p-2 bg-secondary text-light">Action</th>
+            </tr>
+            {state.users.map((item, i) => {
               return (
                 <tr className="border-bottom border-dark p-3">
                   <td>{i}</td>
@@ -61,14 +52,16 @@ const RegisteredUsers = () => {
                   </td>
                 </tr>
               );
-            })
-          ) : (
-            <>
-              <label>No Registered Users</label>
-            </>
-          )}
-        </tbody>
-      </table>
+            })}
+          </tbody>
+        </table>
+      ) : (
+        // render image if users are not available
+        <img
+          src="https://i.pinimg.com/736x/49/e5/8d/49e58d5922019b8ec4642a2e2b9291c2.jpg"
+          alt=""
+        />
+      )}
     </div>
   );
 };

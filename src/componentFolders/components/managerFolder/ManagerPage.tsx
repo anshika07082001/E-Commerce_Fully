@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import {
-  getProductsData,
-  updateProductsData,
-} from "../../Features/commerceSlice";
+import { updateProductsData } from "../../Features/commerceSlice";
 import { state } from "../../Type/Type";
 import Navbar from "../Navbar";
 
@@ -13,21 +10,19 @@ const ManagerPage = () => {
   var useAppSelector: TypedUseSelectorHook<state> = useSelector;
   var state = useAppSelector((state) => state.commerceSlice);
 
-  useEffect(() => {
-    let products = localStorage.getItem("productsData") || "";
-    dispatch(getProductsData(JSON.parse(products)));
-  }, []);
-
+  // function updates the stock of products and dispatches updateproduct function
   const stockHandler = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
-    dispatch(updateProductsData({ index: i, val: e.target.value }));
-    setMsg("Updated Successfully!!");
-    setTimeout(() => setMsg(""), 2000);
+    if (e.currentTarget.value.match(/^[0-9]/)) {
+      dispatch(updateProductsData({ index: i, val: e.target.value }));
+      setMsg("Updated Successfully!!");
+      setTimeout(() => setMsg(""), 2000);
+    }
   };
 
   return (
     <>
       <Navbar />
-      <section className=" p-2">
+      <section className="p-2 padTop">
         <h6 className=" text-center text-success">{msg}</h6>
         {state.products.length > 0 ? (
           <table
@@ -49,7 +44,7 @@ const ManagerPage = () => {
                   Product Stock
                 </th>
               </tr>
-              {state.products.map((item:any, i:number) => {
+              {state.products.map((item: any, i: number) => {
                 return (
                   <tr key={i}>
                     <td className="p-2 border-bottom border-dark">{item.id}</td>
@@ -61,6 +56,7 @@ const ManagerPage = () => {
                     </td>
                     <td className="p-2 border-bottom border-dark">
                       <input
+                        type="text"
                         key={item.id}
                         onChange={(e) => stockHandler(e, i)}
                         className="col-2 text-center"

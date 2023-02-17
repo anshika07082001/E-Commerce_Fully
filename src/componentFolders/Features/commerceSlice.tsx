@@ -33,19 +33,24 @@ const commerceSlice = createSlice({
       state.signData = action.payload;
     },
     signUp(state, action) {
+      var sign = localStorage.getItem("signData");
+      if (sign !== null) {
+        state.signData = JSON.parse(sign);
+        localStorage.setItem("signData", JSON.stringify(state.signData));
+      }
       state.signData.push(action.payload);
       localStorage.setItem("signData", JSON.stringify(state.signData));
     },
-    getLogin(state,action){
-      state.loginObj=action.payload
+    getLogin(state, action) {
+      state.loginObj = action.payload;
     },
     login(state, action) {
       state.loginObj = action.payload;
       localStorage.setItem("loginData", JSON.stringify(state.loginObj));
     },
-    logOut(state,action){
-      state.loginObj={ name: "", email: "", pwd: "", role: "", cart: [] }
-      localStorage.setItem('loginData',JSON.stringify(state.loginObj))
+    logOut(state, action) {
+      state.loginObj = { name: "", email: "", pwd: "", role: "", cart: [] };
+      localStorage.setItem("loginData", JSON.stringify(state.loginObj));
     },
     UsersData(state, action) {
       state.users = action.payload;
@@ -71,7 +76,7 @@ const commerceSlice = createSlice({
     },
     searchProducts(state, action) {
       state.searchArr = [];
-      state.products.map((item:any) => {
+      state.products.map((item: any) => {
         if (
           item.title.toLowerCase().substring(0, action.payload.length) ==
           action.payload.toLowerCase()
@@ -81,9 +86,8 @@ const commerceSlice = createSlice({
       });
     },
     addCart(state, action) {
-      var val = state.products[action.payload.i].title;
-      if (state.products[action.payload.i].stock > 0) {
-        // state.searchArr = state.products;
+      var val = state.searchArr[action.payload.i].title;
+      if (state.searchArr[action.payload.i].stock > 0) {
         if (state.signData[action.payload.index].cart.length > 0) {
           for (
             var i = 0;
@@ -98,28 +102,27 @@ const commerceSlice = createSlice({
               state.signData[action.payload.index].cart.length - 1
             ) {
               state.signData[action.payload.index].cart.push({
-                title: state.products[action.payload.i].title,
-                brand: state.products[action.payload.i].brand,
-                id: state.products[action.payload.i].id,
+                title: state.searchArr[action.payload.i].title,
+                brand: state.searchArr[action.payload.i].brand,
+                id: state.searchArr[action.payload.i].id,
                 quantity: 1,
-                price: state.products[action.payload.i].price,
+                price: state.searchArr[action.payload.i].price,
               });
               break;
             }
           }
         } else {
           state.signData[action.payload.index].cart.push({
-            title: state.products[action.payload.i].title,
-            brand: state.products[action.payload.i].brand,
-            id: state.products[action.payload.i].id,
+            title: state.searchArr[action.payload.i].title,
+            brand: state.searchArr[action.payload.i].brand,
+            id: state.searchArr[action.payload.i].id,
             quantity: 1,
-            price: state.products[action.payload.i].price,
+            price: state.searchArr[action.payload.i].price,
           });
         }
         state.products[action.payload.i].stock--;
-        state.searchArr[action.payload.i].stock--
+        state.searchArr[action.payload.i].stock--;
       }
-      // state.searchArr = state.products;
       localStorage.setItem("productsData", JSON.stringify(state.products));
       localStorage.setItem("signData", JSON.stringify(state.signData));
     },
@@ -136,10 +139,50 @@ const commerceSlice = createSlice({
       localStorage.setItem("productsData", JSON.stringify(state.products));
     },
     sortProducts(state, action) {
-      state.searchArr=action.payload
+      state.searchArr = action.payload;
     },
     filterProducts(state, action) {
       state.searchArr = action.payload;
+    },
+    plusProducts(state, action) {
+      state.signData.map((item: any) => {
+        if (item.email == state.loginObj.email) {
+          item.cart.map((ele: any) => {
+            if (ele.id == action.payload.id) {
+              ele.quantity++;
+            }
+          });
+        }
+      });
+      state.searchArr.map((item: any) => {
+        if (item.id == action.payload.id) {
+          item.stock--;
+        }
+      });
+      state.products = state.searchArr;
+      localStorage.setItem("signData", JSON.stringify(state.signData));
+      localStorage.setItem("productsData", JSON.stringify(state.products));
+    },
+    minusProducts(state, action) {
+      if (action.payload.quantity > 0) {
+        state.signData.map((item: any) => {
+          if (item.email == state.loginObj.email) {
+            item.cart.map((ele: any) => {
+              if (ele.id == action.payload.id) {
+                ele.quantity--;
+              }
+            });
+          }
+        });
+        state.searchArr.map((item: any) => {
+          if (item.id == action.payload.id) {
+            item.stock++;
+          }
+        });
+      }
+      state.products = state.searchArr;
+      localStorage.setItem("signData", JSON.stringify(state.signData));
+      localStorage.setItem("productsData", JSON.stringify(state.products));
     },
   },
   extraReducers: (builder) => {
@@ -175,5 +218,7 @@ export const {
   deleteproduct,
   sortProducts,
   filterProducts,
+  plusProducts,
+  minusProducts,
 } = commerceSlice.actions;
 export default commerceSlice.reducer;

@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { login } from "../Features/commerceSlice";
 import { state } from "../Type/Type";
 
@@ -12,19 +12,14 @@ const Login = () => {
   var [msgFlg, setMsgFlg] = useState({ flg: false, errMsg: "" });
   var navigate = useNavigate();
 
-  // useEffect(()=>{
-  //   let users=localStorage.getItem('usersData')
-  //   dispatch(getUsersData(JSON.parse(users||'')))
-  // },[])
-
+  // function runs on click of login button and dispatches the login function
   const logHandler = () => {
     let temp = false;
     if (
       inpRefs.current.email.value !== "" &&
       inpRefs.current.pwd.value !== ""
     ) {
-      var signArr = JSON.parse(localStorage.getItem("signData") || "");
-      signArr.map((item: any) => {
+      state.signData.map((item: any) => {
         if (
           item.email == inpRefs.current.email.value &&
           item.pwd == inpRefs.current.pwd.value
@@ -35,11 +30,6 @@ const Login = () => {
           setTimeout(() => checkRole(item), 1000);
           inpRefs.current.email.value = "";
           inpRefs.current.pwd.value = "";
-          // state.users.map((ele)=>{
-          //   if(ele.email==item.email){
-
-          //   }
-          // })
         }
       });
       if (temp == false) {
@@ -54,7 +44,7 @@ const Login = () => {
       setTimeout(() => setMsgFlg({ flg: msgFlg.flg, errMsg: "" }), 2000);
     }
   };
-
+// function checks the role of users and navigates to another component
   const checkRole = (item: any) => {
     if (item.role === "Admin") {
       navigate("/admin-panel");
@@ -94,6 +84,7 @@ const Login = () => {
             type="password"
             ref={(ref) => (inpRefs.current.pwd = ref)}
           />
+          {/* rendering of loader */}
           {msgFlg.flg ? (
             <img
               className="col-3 m-auto"
@@ -110,6 +101,7 @@ const Login = () => {
             Log In
           </button>
         </div>
+        <Link to="/">Sign Up</Link>
         <label className="mt-2">
           By Continuing You will continue to{" "}
           <span className="text-primary">E-commerce Conditions</span>
