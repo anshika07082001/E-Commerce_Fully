@@ -53,9 +53,9 @@ const Cart = () => {
     <>
       <Navbar />
       {/* Rendering of cart table */}
-      <div className="col-12 pt-5 padTop">
+      <div className="col-12 pt-5 padTop table-responsive">
         <table
-          className=" mt-3 pt-5 m-auto text-center shadow table  overflow-scroll"
+          className=" mt-3 pt-5 m-auto text-center shadow"
           id="users__table"
         >
           <tbody>

@@ -1,7 +1,7 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "../Features/commerceSlice";
+import { getSignData, login } from "../Features/commerceSlice";
 import { state } from "../Type/Type";
 
 const Login = () => {
@@ -11,6 +11,12 @@ const Login = () => {
   var dispatch = useDispatch();
   var [msgFlg, setMsgFlg] = useState({ flg: false, errMsg: "" });
   var navigate = useNavigate();
+  useEffect(()=>{
+    let signData = localStorage.getItem("signData");
+    if(signData!==null){
+      dispatch(getSignData(JSON.parse(signData)));
+    }
+  },[])
 
   // function runs on click of login button and dispatches the login function
   const logHandler = () => {
