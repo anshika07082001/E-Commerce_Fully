@@ -26,14 +26,6 @@
     width: 100%;
 }
 
-#grid__products {
-    transition: 1s;
-}
-
-#grid__products:hover {
-    transform: scale(1.1);
-}
-
 .footer__bg {
     background: #172337;
 }
@@ -56,7 +48,7 @@
     padding-top: 10% !important;
 }
 
-@media (max-width:600px){
+@media (max-width:600px) {
     .padTop {
         padding-top: 30% !important;
     }

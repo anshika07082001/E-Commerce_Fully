@@ -12,6 +12,8 @@ var initialState: signData = {
   searchArr: [],
 };
 
+// function fetches the data from dummy json
+
 export const productData = createAsyncThunk(
   "commerce/productData",
   async () => {
@@ -29,9 +31,11 @@ const commerceSlice = createSlice({
   name: "commerce",
   initialState,
   reducers: {
+    // function sets the data to signData state
     getSignData(state, action) {
       state.signData = action.payload;
     },
+    // function sets the new signUp entry to state and save to local storage
     signUp(state, action) {
       var sign = localStorage.getItem("signData");
       if (sign !== null) {
@@ -41,39 +45,48 @@ const commerceSlice = createSlice({
       state.signData.push(action.payload);
       localStorage.setItem("signData", JSON.stringify(state.signData));
     },
+    // function sets the data to loginObj state
     getLogin(state, action) {
       state.loginObj = action.payload;
     },
+    // function sets the new login entry to state and save to local Storage
     login(state, action) {
       state.loginObj = action.payload;
       localStorage.setItem("loginData", JSON.stringify(state.loginObj));
     },
+    // function logouts the login entry and sets the local storage
     logOut(state, action) {
       state.loginObj = { name: "", email: "", pwd: "", role: "", cart: [] };
       localStorage.setItem("loginData", JSON.stringify(state.loginObj));
     },
+    // function sets the usersData to state and save to local storage
     UsersData(state, action) {
       state.users = action.payload;
       localStorage.setItem("usersData", JSON.stringify(state.users));
     },
+    // function sets the users to state
     getUsersData(state, action) {
       state.users = action.payload;
     },
+    // function deletes and sets the users state
     deleteUsersData(state, action) {
       state.signData.splice(action.payload.ind, 1);
       state.users.splice(action.payload.index, 1);
       localStorage.setItem("usersData", JSON.stringify(state.users));
       localStorage.setItem("signData", JSON.stringify(state.signData));
     },
+    // function sets the products data to state and local storage
     getProductsData(state, action) {
       state.products = action.payload;
       state.searchArr = action.payload;
       localStorage.setItem("productsData", JSON.stringify(state.products));
     },
+    // function updates the products data to local storage and state
     updateProductsData(state, action) {
       state.products[action.payload.index].stock = action.payload.val;
       localStorage.setItem("productsData", JSON.stringify(state.products));
     },
+    // function searches the products
     searchProducts(state, action) {
       state.searchArr = [];
       state.products.map((item: any) => {
@@ -85,6 +98,7 @@ const commerceSlice = createSlice({
         }
       });
     },
+    // function adds the data and set the localstorage
     addCart(state, action) {
       var val = state.searchArr[action.payload.i].title;
       if (state.searchArr[action.payload.i].stock > 0) {
@@ -126,6 +140,7 @@ const commerceSlice = createSlice({
       localStorage.setItem("productsData", JSON.stringify(state.products));
       localStorage.setItem("signData", JSON.stringify(state.signData));
     },
+    // function deletes the products and set the local storage
     deleteproduct(state, action) {
       state.products[action.payload.prodInd].stock =
         state.products[action.payload.prodInd].stock +
@@ -138,12 +153,15 @@ const commerceSlice = createSlice({
       localStorage.setItem("signData", JSON.stringify(state.signData));
       localStorage.setItem("productsData", JSON.stringify(state.products));
     },
+    // function sorts the products data
     sortProducts(state, action) {
       state.searchArr = action.payload;
     },
+    // function filters the products data
     filterProducts(state, action) {
       state.searchArr = action.payload;
     },
+    // function increments the products quantity
     plusProducts(state, action) {
       state.signData.map((item: any) => {
         if (item.email == state.loginObj.email) {
@@ -163,6 +181,7 @@ const commerceSlice = createSlice({
       localStorage.setItem("signData", JSON.stringify(state.signData));
       localStorage.setItem("productsData", JSON.stringify(state.products));
     },
+    // function decrements the products quantity
     minusProducts(state, action) {
       if (action.payload.quantity > 0) {
         state.signData.map((item: any) => {
