@@ -59,7 +59,7 @@ const ManagerPage = () => {
                         type="text"
                         key={item.id}
                         onChange={(e) => stockHandler(e, i)}
-                        className="col-2 text-center"
+                        className="col-8 text-center"
                         value={item.stock}
                       />
                     </td>

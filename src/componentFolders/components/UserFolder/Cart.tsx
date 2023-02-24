@@ -55,7 +55,7 @@ const Cart = () => {
       {/* Rendering of cart table */}
       <div className="col-12 pt-5 padTop table-responsive">
         <table
-          className=" mt-3 pt-5 m-auto text-center shadow"
+          className="col-10 mt-3 pt-5 m-auto text-center shadow"
           id="users__table"
         >
           <tbody>
@@ -71,7 +71,7 @@ const Cart = () => {
                       return (
                         <>
                           {!i && (
-                            <tr className=" border-bottom border-dark pt-5">
+                            <tr className="border-bottom border-dark pt-5">
                               <th className="p-2 bg-secondary text-light">
                                 Product Id
                               </th>
@@ -99,8 +99,8 @@ const Cart = () => {
                             <td className="p-3">{ele.id}</td>
                             <td className="p-3">{ele.title}</td>
                             <td className="p-3">{ele.brand}</td>
-                            <td className="p-3">{ele.price}</td>
-                            <td>
+                            <td className="p-3">₹{ele.price}</td>
+                            <td className="d-flex flex-row align-items-center justify-content-center">
                               <button
                                 className=" me-2 btn btn-warning rounded-circle fs-6 fw-bold"
                                 onClick={() => minusHandler(ele)}
@@ -142,7 +142,7 @@ const Cart = () => {
       {/* Rendering of Grand Total Amount and placeOrder button*/}
       {total > 0 ? (
         <div className="col-12 text-center">
-          <h3 className="text-center mt-2">Grand total= {total}</h3>
+          <h3 className="text-center mt-2">Grand total= ₹{total}</h3>
           <button
             className="btn btn-warning p-2 text-white shadow ps-4 pe-4 mb-3"
             onClick={order}
