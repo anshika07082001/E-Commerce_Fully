@@ -5,18 +5,18 @@ import { getSignData, login } from "../Features/commerceSlice";
 import { state } from "../Type/Type";
 
 const Login = () => {
-  var useAppSelector: TypedUseSelectorHook<state> = useSelector;
-  var state = useAppSelector((state) => state.commerceSlice);
-  var inpRefs = useRef<any>([]);
-  var dispatch = useDispatch();
-  var [msgFlg, setMsgFlg] = useState({ flg: false, errMsg: "" });
-  var navigate = useNavigate();
-  useEffect(()=>{
+  let useAppSelector: TypedUseSelectorHook<state> = useSelector;
+  let state = useAppSelector((state) => state.commerceSlice);
+  let inpRefs = useRef<any>([]);
+  let dispatch = useDispatch();
+  let [msgFlg, setMsgFlg] = useState({ flg: false, errMsg: "" });
+  let navigate = useNavigate();
+  useEffect(() => {
     let signData = localStorage.getItem("signData");
-    if(signData!==null){
+    if (signData !== null) {
       dispatch(getSignData(JSON.parse(signData)));
     }
-  },[])
+  }, []);
 
   // function runs on click of login button and dispatches the login function
   const logHandler = () => {
@@ -25,10 +25,10 @@ const Login = () => {
       inpRefs.current.email.value !== "" &&
       inpRefs.current.pwd.value !== ""
     ) {
-      state.signData.map((item: any) => {
+      state.signData.forEach((item: any) => {
         if (
-          item.email == inpRefs.current.email.value &&
-          item.pwd == inpRefs.current.pwd.value
+          item.email === inpRefs.current.email.value &&
+          item.pwd === inpRefs.current.pwd.value
         ) {
           temp = true;
           dispatch(login(item));
@@ -38,7 +38,7 @@ const Login = () => {
           inpRefs.current.pwd.value = "";
         }
       });
-      if (temp == false) {
+      if (temp === false) {
         setMsgFlg({
           flg: msgFlg.flg,
           errMsg: "details not matched please check your password or email!!",
@@ -50,16 +50,16 @@ const Login = () => {
       setTimeout(() => setMsgFlg({ flg: msgFlg.flg, errMsg: "" }), 2000);
     }
   };
-// function checks the role of users and navigates to another component
+  // function checks the role of users and navigates to another component
   const checkRole = (item: any) => {
     if (item.role === "Admin") {
-      navigate("/admin-panel");
+      navigate("/admin_panel");
     }
     if (item.role === "Manager") {
-      navigate("/manager-page");
+      navigate("/manager_page");
     }
     if (item.role === "User") {
-      navigate("/user-page");
+      navigate("/user_page");
     }
   };
 
@@ -70,7 +70,7 @@ const Login = () => {
         <h2>Log In</h2>
         <span
           className={
-            msgFlg.errMsg == "Login Successfully!!"
+            msgFlg.errMsg === "Login Successfully!!"
               ? "text-success"
               : "text-danger"
           }

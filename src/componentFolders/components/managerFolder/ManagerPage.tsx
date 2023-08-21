@@ -5,10 +5,10 @@ import { state } from "../../Type/Type";
 import Navbar from "../Navbar";
 
 const ManagerPage = () => {
-  var [msg, setMsg] = useState("");
-  var dispatch = useDispatch();
-  var useAppSelector: TypedUseSelectorHook<state> = useSelector;
-  var state = useAppSelector((state) => state.commerceSlice);
+  let [msg, setMsg] = useState("");
+  let dispatch = useDispatch();
+  let useAppSelector: TypedUseSelectorHook<state> = useSelector;
+  let state = useAppSelector((state) => state.commerceSlice);
 
   // function updates the stock of products and dispatches updateproduct function
   const stockHandler = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
@@ -46,7 +46,7 @@ const ManagerPage = () => {
               </tr>
               {state.products.map((item: any, i: number) => {
                 return (
-                  <tr key={i}>
+                  <tr key={item.name}>
                     <td className="p-2 border-bottom border-dark">{item.id}</td>
                     <td className="p-2 border-bottom border-dark">
                       {item.title}

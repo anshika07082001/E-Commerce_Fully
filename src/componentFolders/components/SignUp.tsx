@@ -5,22 +5,22 @@ import { signUp, UsersData } from "../Features/commerceSlice";
 import { msgArr, state } from "../Type/Type";
 
 const SignUp = () => {
-  var role = ["Admin", "Manager", "User"];
-  var [rol, setRol] = useState("");
-  var inpRefs = useRef<any>({ name: null, email: null, role: null, pwd: null });
-  var [msg, setMsg] = useState<msgArr>({
+  const role = ["Admin", "Manager", "User"];
+  let [rol, setRol] = useState("");
+  let inpRefs = useRef<any>({ name: null, email: null, role: null, pwd: null });
+  let [msg, setMsg] = useState<msgArr>({
     nameMsg: "",
     emailMsg: "",
     pwdMsg: "",
-    errormsg: "",
+    errorMsg: "",
   });
-  var dispatch = useDispatch();
-  var useAppSelector: TypedUseSelectorHook<state> = useSelector;
-  var state = useAppSelector((state) => state.commerceSlice);
+  let dispatch = useDispatch();
+  let useAppSelector: TypedUseSelectorHook<state> = useSelector;
+  let state = useAppSelector((state) => state.commerceSlice);
   // function checks validation
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    var placeHolder = e.target.getAttribute("placeholder");
-    msg.errormsg = "";
+    let placeHolder = e.target.getAttribute("placeholder");
+    msg.errorMsg = "";
     if (placeHolder === "Enter Your Name") {
       if (e.target.value.match(/^[A-Z][a-z]+ [A-Z][a-z]+$/)) {
         inpRefs.current.name.value = e.target.value;
@@ -61,26 +61,26 @@ const SignUp = () => {
       inpRefs.current.email.value !== "" &&
       inpRefs.current.pwd.value !== "" &&
       msg.emailMsg === "" &&
-      msg.errormsg === "" &&
+      msg.errorMsg === "" &&
       msg.nameMsg === "" &&
       msg.pwdMsg === ""
     ) {
       if (rol !== "") {
         if (state.signData.length > 0) {
-          var signData = localStorage.getItem("signData") || "";
-          JSON.parse(signData).map((item: any) => {
+          let signData = localStorage.getItem("signData") || "";
+          JSON.parse(signData).forEach((item: any) => {
             if (
-              item.role == "User" &&
-              item.email == inpRefs.current.email.value
+              item.role === "User" &&
+              item.email === inpRefs.current.email.value
             ) {
               temp = true;
             }
           });
         }
         if (temp) {
-          msg.errormsg = "Email Already Exists!!";
+          msg.errorMsg = "Email Already Exists!!";
         } else {
-          var obj = {
+          let obj = {
             name: inpRefs.current.name.value,
             email: inpRefs.current.email.value,
             pwd: inpRefs.current.pwd.value,
@@ -91,24 +91,24 @@ const SignUp = () => {
           inpRefs.current.name.value = "";
           inpRefs.current.email.value = "";
           inpRefs.current.pwd.value = "";
-          msg.errormsg = "SignIn Successfully!!";
+          msg.errorMsg = "SignIn Successfully!!";
           userFunc();
         }
       } else {
         alert("please select the role!!");
       }
     } else {
-      msg.errormsg = "All Fields Must be filled correctly";
+      msg.errorMsg = "All Fields Must be filled correctly";
     }
     setMsg({ ...msg });
   };
 
   // function checks the role of users and dispatches the usersData function
   const userFunc = () => {
-    var arr: any = [];
+    let arr: any = [];
     let User = localStorage.getItem("signData") || "";
-    JSON.parse(User).map((item: any) => {
-      if (item.role == "User") {
+    JSON.parse(User).forEach((item: any) => {
+      if (item.role === "User") {
         arr.push(item);
       }
     });
@@ -122,12 +122,12 @@ const SignUp = () => {
         <h2>Sign Up</h2>
         <span
           className={
-            msg.errormsg === "SignIn Successfully!!"
+            msg.errorMsg === "SignIn Successfully!!"
               ? "msgFont text-success fs-6"
               : "text-danger msgFont fs-6"
           }
         >
-          {msg.errormsg}
+          {msg.errorMsg}
         </span>
         <div className="d-flex flex-column col-10 p-2">
           <label className="mt-1">Enter Full Name</label>

@@ -4,18 +4,18 @@ import { deleteUsersData } from "../../Features/commerceSlice";
 import { state } from "../../Type/Type";
 
 const RegisteredUsers = () => {
-  var dispatch = useDispatch();
-  var useAppSelector: TypedUseSelectorHook<state> = useSelector;
-  var state = useAppSelector((state) => state.commerceSlice);
+  let dispatch = useDispatch();
+  let useAppSelector: TypedUseSelectorHook<state> = useSelector;
+  let state = useAppSelector((state) => state.commerceSlice);
   // function deletes the user and dispatches the deleteUsersData
   const deleteUsers = (i: number) => {
-    var sign = localStorage.getItem("signData");
-    var signArr = JSON.parse(sign || "");
+    let sign = localStorage.getItem("signData");
+    let signArr = JSON.parse(sign || "");
     signArr.map((item: any, index: number) => {
       if (
-        state.users[i].email == item.email &&
-        state.users[i].name == item.name &&
-        state.users[i].role == item.role
+        state.users[i].email === item.email &&
+        state.users[i].name === item.name &&
+        state.users[i].role === item.role
       ) {
         dispatch(deleteUsersData({ index: i, ind: index }));
       }
@@ -26,7 +26,10 @@ const RegisteredUsers = () => {
     <div className="col-10 padTop p-3 m-auto d-flex align-items-center justify-content-center flex-column">
       {/* rendering of users data */}
       {state.users.length > 0 ? (
-        <table className="col-12 m-auto text-center shadow table overflow-scroll" id="users__table">
+        <table
+          className="col-12 m-auto text-center shadow table overflow-scroll"
+          id="users__table"
+        >
           <tbody>
             <tr className=" border-bottom border-dark">
               <th className="p-2 bg-secondary text-light">S.No</th>
@@ -37,7 +40,7 @@ const RegisteredUsers = () => {
             </tr>
             {state.users.map((item, i) => {
               return (
-                <tr className="border-bottom border-dark p-3">
+                <tr className="border-bottom border-dark p-3" key={item.name}>
                   <td>{i}</td>
                   <td>{item.name}</td>
                   <td>{item.email}</td>

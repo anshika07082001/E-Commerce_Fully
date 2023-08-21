@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { signData } from "../Type/Type";
 
-var initialState: signData = {
+let initialState: signData = {
   signData: [],
   loginObj: { name: "", email: "", pwd: "", role: "", cart: [] },
   users: [],
@@ -37,7 +37,7 @@ const commerceSlice = createSlice({
     },
     // function sets the new signUp entry to state and save to local storage
     signUp(state, action) {
-      var sign = localStorage.getItem("signData");
+      let sign = localStorage.getItem("signData");
       if (sign !== null) {
         state.signData = JSON.parse(sign);
         localStorage.setItem("signData", JSON.stringify(state.signData));
@@ -89,9 +89,9 @@ const commerceSlice = createSlice({
     // function searches the products
     searchProducts(state, action) {
       state.searchArr = [];
-      state.products.map((item: any) => {
+      state.products.forEach((item: any) => {
         if (
-          item.title.toLowerCase().substring(0, action.payload.length) ==
+          item.title.toLowerCase().substring(0, action.payload.length) ===
           action.payload.toLowerCase()
         ) {
           state.searchArr.push(item);
@@ -163,17 +163,17 @@ const commerceSlice = createSlice({
     },
     // function increments the products quantity
     plusProducts(state, action) {
-      state.signData.map((item: any) => {
-        if (item.email == state.loginObj.email) {
-          item.cart.map((ele: any) => {
-            if (ele.id == action.payload.id) {
+      state.signData.forEach((item: any) => {
+        if (item.email === state.loginObj.email) {
+          item.cart.forEach((ele: any) => {
+            if (ele.id === action.payload.id) {
               ele.quantity++;
             }
           });
         }
       });
-      state.searchArr.map((item: any) => {
-        if (item.id == action.payload.id) {
+      state.searchArr.forEach((item: any) => {
+        if (item.id === action.payload.id) {
           item.stock--;
         }
       });
@@ -184,17 +184,17 @@ const commerceSlice = createSlice({
     // function decrements the products quantity
     minusProducts(state, action) {
       if (action.payload.quantity > 0) {
-        state.signData.map((item: any) => {
-          if (item.email == state.loginObj.email) {
-            item.cart.map((ele: any) => {
-              if (ele.id == action.payload.id) {
+        state.signData.forEach((item: any) => {
+          if (item.email === state.loginObj.email) {
+            item.cart.forEach((ele: any) => {
+              if (ele.id === action.payload.id) {
                 ele.quantity--;
               }
             });
           }
         });
-        state.searchArr.map((item: any) => {
-          if (item.id == action.payload.id) {
+        state.searchArr.forEach((item: any) => {
+          if (item.id === action.payload.id) {
             item.stock++;
           }
         });

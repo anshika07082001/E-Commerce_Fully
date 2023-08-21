@@ -1,27 +1,20 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  addCart,
-  getProductsData,
-  getSignData,
-  getUsersData,
-} from "../../Features/commerceSlice";
+import { addCart } from "../../Features/commerceSlice";
 import { state } from "../../Type/Type";
 
 const ProductsPage = () => {
-  var useAppSelector: TypedUseSelectorHook<state> = useSelector;
-  var state = useAppSelector((state) => state.commerceSlice);
-  var dispatch = useDispatch();
-  var navigate = useNavigate();
+  let useAppSelector: TypedUseSelectorHook<state> = useSelector;
+  let state = useAppSelector((state) => state.commerceSlice);
+  let dispatch = useDispatch();
+  let navigate = useNavigate();
 
   const addProdHandler = (i: number) => {
-    // let login = localStorage.getItem("loginData") || "";
-    // var obj = JSON.parse(login);
     if (state.loginObj.name !== "") {
-      if (state.loginObj.role == "User") {
-        state.signData.map((item, index) => {
-          if (item.email == state.loginObj.email) {
+      if (state.loginObj.role === "User") {
+        state.signData.forEach((item, index) => {
+          if (item.email === state.loginObj.email) {
             dispatch(addCart({ i: i, index: index }));
           }
         });
@@ -37,10 +30,10 @@ const ProductsPage = () => {
     <>
       {state.searchArr.length > 0 ? (
         <div className="col-10 p-3 grid m-auto">
-          {state.searchArr.map((item:any, i:number) => {
+          {state.searchArr.map((item: any, i: number) => {
             return (
               <div
-                key={i}
+                key={item}
                 id="grid__products"
                 className="col-12 m-auto shadow rounded p-4 rounded shadow d-flex flex-column align-items-center justify-content-center"
               >

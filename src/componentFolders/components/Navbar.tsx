@@ -11,17 +11,17 @@ import {
 import { state } from "../Type/Type";
 
 const Navbar = () => {
-  var useAppSelector: TypedUseSelectorHook<state> = useSelector;
-  var state = useAppSelector((state) => state.commerceSlice);
-  var navigate = useNavigate();
-  var dispatch = useDispatch();
+  let useAppSelector: TypedUseSelectorHook<state> = useSelector;
+  let state = useAppSelector((state) => state.commerceSlice);
+  let navigate = useNavigate();
+  let dispatch = useDispatch();
 
   // function gets the data from localStorage and dispatches to reducer
   useEffect(() => {
     let products = localStorage.getItem("productsData");
     let users = localStorage.getItem("usersData");
     let signData = localStorage.getItem("signData");
-    var login = localStorage.getItem("loginData");
+    let login = localStorage.getItem("loginData");
     if (
       products !== null &&
       users !== null &&
@@ -41,14 +41,14 @@ const Navbar = () => {
   };
   // function navigates to login page if someone clicks the login button
   const loginHandler = () => {
-    if (state.loginObj.email == "") {
+    if (state.loginObj.email === "") {
       navigate("/login");
     }
   };
   // function navigates to cartpage if someone clicks on cart icon
   const cartHandler = () => {
     if (state.loginObj.email !== "") {
-      navigate("/cart-page");
+      navigate("/cart_page");
     } else {
       alert("You must login First!!");
     }
@@ -58,7 +58,7 @@ const Navbar = () => {
     <nav className="navbar navbar-expand-lg shadow bg-body-tertiary col-12 position-fixed">
       <div className="container-fluid">
         <Link
-          to="/user-page"
+          to="/user_page"
           className="text-decoration-none text-dark fw-bolder"
         >
           <img
@@ -89,7 +89,7 @@ const Navbar = () => {
             <></>
           )}
           {/* rendering of login button */}
-          {state.loginObj.email == "" ? (
+          {state.loginObj.email === "" ? (
             <button className="btn text-success" onClick={loginHandler}>
               LogIn
             </button>
@@ -97,7 +97,7 @@ const Navbar = () => {
             <></>
           )}
           {/* rendering of cart icon */}
-          {state.loginObj.role == "User" ? (
+          {state.loginObj.role === "User" ? (
             <i className="bi bi-cart fs-2" onClick={cartHandler}></i>
           ) : (
             <></>

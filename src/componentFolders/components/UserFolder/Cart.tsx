@@ -7,26 +7,26 @@ import {
 } from "../../Features/commerceSlice";
 import { state } from "../../Type/Type";
 import Navbar from "../Navbar";
-var flag = false;
-var total: number = 0;
+let flag = false;
+let total: number = 0;
 
 const Cart = () => {
-  var useAppSelector: TypedUseSelectorHook<state> = useSelector;
-  var state = useAppSelector((state) => state.commerceSlice);
-  var dispatch = useDispatch();
+  let useAppSelector: TypedUseSelectorHook<state> = useSelector;
+  let state = useAppSelector((state) => state.commerceSlice);
+  let dispatch = useDispatch();
   // function deletes the product from stock
   const deleteprod = (i: number, objItem: any) => {
-    var prodInd, cartInd, signInd;
-    state.products.map((item: any, prodIndex: number) => {
-      if (item.id == objItem.id) {
+    let prodInd, cartInd, signInd;
+    state.products.forEach((item: any, prodIndex: number) => {
+      if (item.id === objItem.id) {
         prodInd = prodIndex;
       }
     });
-    state.signData.map((item, signIndex) => {
-      if (item.name == state.loginObj.name) {
+    state.signData.forEach((item, signIndex) => {
+      if (item.name === state.loginObj.name) {
         signInd = signIndex;
-        item.cart.map((ele, eleIndex) => {
-          if (ele.id == objItem.id) {
+        item.cart.forEach((ele, eleIndex) => {
+          if (ele.id === objItem.id) {
             cartInd = eleIndex;
           }
         });
@@ -61,12 +61,12 @@ const Cart = () => {
           <tbody>
             {state.signData.length > 0 ? (
               state.signData.map((item) => {
-                if (item.email == state.loginObj.email) {
+                if (item.email === state.loginObj.email) {
                   if (item.cart.length > 0) {
                     flag = false;
                     total = 0;
                     return item.cart.map((ele, i) => {
-                      var sum = { ...ele };
+                      let sum = { ...ele };
                       total = total + sum.price * sum.quantity;
                       return (
                         <>
@@ -165,7 +165,7 @@ const Cart = () => {
         <></>
       )}
       {/* renders the image if user deletes the data from localstorage */}
-      {state.loginObj.email == "" ? (
+      {state.loginObj.email === "" ? (
         <div className="col-12 text-center p-5">
           <img
             src="https://www.seekpng.com/png/detail/117-1170538_404-your-cart-is-empty.png"

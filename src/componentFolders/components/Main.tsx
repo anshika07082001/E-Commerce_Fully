@@ -11,9 +11,9 @@ import SignUp from "./SignUp";
 import UserPage from "./UserFolder/UserPage";
 
 const Main = () => {
-  var useAppSelector: TypedUseSelectorHook<state> = useSelector;
-  var state = useAppSelector((state) => state.commerceSlice);
-  var dispatch = useDispatch();
+  let useAppSelector: TypedUseSelectorHook<state> = useSelector;
+  let state = useAppSelector((state) => state.commerceSlice);
+  let dispatch = useDispatch();
   // function gets the products data from api
   useEffect(() => {
     if (state.products.length <= 0) {
@@ -26,10 +26,10 @@ const Main = () => {
       <Routes>
         <Route path="/" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/admin-panel" element={<AdminPanel />} />
-        <Route path="/user-page" element={<UserPage />} />
-        <Route path="/manager-page" element={<ManagerPage />} />
-        <Route path="/cart-page" element={<Cart />} />
+        <Route path="/admin_panel" element={<AdminPanel />} />
+        <Route path="/user_page" element={<UserPage />} />
+        <Route path="/manager_page" element={<ManagerPage />} />
+        <Route path="/cart_page" element={<Cart />} />
       </Routes>
     </>
   );

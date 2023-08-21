@@ -10,11 +10,11 @@ import Navbar from "../Navbar";
 import ProductsPage from "./ProductsPage";
 
 const UserPage = () => {
-  var useAppSelector: TypedUseSelectorHook<state> = useSelector;
-  var state = useAppSelector((state) => state.commerceSlice);
-  var dispatch = useDispatch();
-  var sort = ["price", "rating", "stock"];
-  var filter = [
+  let useAppSelector: TypedUseSelectorHook<state> = useSelector;
+  let state = useAppSelector((state) => state.commerceSlice);
+  let dispatch = useDispatch();
+  let sort = ["price", "rating", "stock"];
+  let filter = [
     "smartphones",
     "laptops",
     "fragrances",
@@ -22,7 +22,7 @@ const UserPage = () => {
     "groceries",
     "home-decoration",
   ];
-  var filterArr: any = [];
+  let filterArr: any = [];
 
   // function searches the products and dispatches the searchproduct function
 
@@ -32,15 +32,15 @@ const UserPage = () => {
   };
   // function sorts the data and dispatches the sortproducts function
   const sortHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    var val = e.currentTarget.value;
-    var newArr = [...state.products];
+    let val = e.currentTarget.value;
+    let newArr = [...state.products];
     newArr.sort((p1: any, p2: any) => p1[val] - p2[val]);
     dispatch(sortProducts(newArr));
   };
   // function filters the data and dispatches the filterproducts function
   const filterHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    state.products.map((item: any) => {
-      if (item.category == e.currentTarget.value) {
+    state.products.forEach((item: any) => {
+      if (item.category === e.currentTarget.value) {
         filterArr.push(item);
       }
     });
@@ -77,7 +77,7 @@ const UserPage = () => {
           >
             <option hidden>Sort ⇅</option>
             {sort.map((item, i) => {
-              return <option>{item}</option>;
+              return <option key={item}>{item}</option>;
             })}
           </select>
           {/* rendering the select box for filtering data */}
@@ -87,7 +87,7 @@ const UserPage = () => {
           >
             <option hidden>Filter By Category</option>
             {filter.map((item) => {
-              return <option>{item}</option>;
+              return <option key={item}>{item}</option>;
             })}
           </select>
         </div>

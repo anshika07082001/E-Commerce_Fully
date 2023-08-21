@@ -16,7 +16,7 @@ export type msgArr = {
   nameMsg: string;
   emailMsg: string;
   pwdMsg: string;
-  errormsg: string;
+  errorMsg: string;
 };
 
 export type signData = {
